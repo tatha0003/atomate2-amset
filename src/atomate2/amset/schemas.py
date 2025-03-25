@@ -202,7 +202,7 @@ class AmsetTaskDocument(StructureMetadata):
             completed_at=datetime_str(),
             input=settings,
             transport=transport,
-            usage_stats=timing,
+            #usage_stats=timing,
             kpoint_mesh=inter_mesh,
             nkpoints=np.prod(inter_mesh),
             log=log,

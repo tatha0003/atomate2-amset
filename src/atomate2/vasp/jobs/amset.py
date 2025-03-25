@@ -301,6 +301,7 @@ def calculate_deformation_potentials(
     # TODO: Handle host names properly
     bulk_dir = strip_hostname(bulk_dir)
     deformation_dirs = [strip_hostname(d) for d in deformation_dirs]
+    print(deformation_dirs)
     args = [
         bulk_dir,
         *deformation_dirs,

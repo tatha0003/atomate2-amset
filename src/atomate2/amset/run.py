@@ -19,7 +19,6 @@ def run_amset() -> None:
     with open("std_out.log", "w") as f_std, open("std_err.log", "w") as f_err:
         subprocess.call(["amset", "run"], stdout=f_std, stderr=f_err)  # noqa: S607
 
-
 def check_converged(
     new_transport: dict,
     old_transport: dict,

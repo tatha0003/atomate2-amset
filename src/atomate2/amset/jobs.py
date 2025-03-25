@@ -46,6 +46,8 @@ class AmsetMaker(Maker):
         wavefunction_dir: str | Path = None,
         deformation_dir: str | Path = None,
         bandstructure_dir: str | Path = None,
+        maxiter: int = 2,
+        niter: int = 0,
     ) -> Response:
         """Run an AMSET calculation.
 
@@ -64,6 +66,7 @@ class AmsetMaker(Maker):
             A directory containing the dense band structure file (vasprun.xml or
             band_structure_data.json).
         """
+        print("running amset")
         # copy previous inputs
         from_prev = prev_dir is not None
         if prev_dir is not None:
@@ -88,7 +91,9 @@ class AmsetMaker(Maker):
         run_amset()
 
         converged = None
-        if self.resubmit:
+        print("iteration number", niter)
+
+        if self.resubmit and niter<maxiter:
             prev_transport_file = Path("transport.prev.json")
             if not prev_transport_file.exists():
                 logger.info("No previous transport calculations found.")
@@ -110,10 +115,11 @@ class AmsetMaker(Maker):
 
         # handle resubmission for non-converged calculations
         replace = None
-        if self.resubmit and not converged:
+        if self.resubmit and not converged and niter<maxiter:
             replace = self.make(
                 {"interpolation_factor": settings.get("interpolation_factor", 10) + 5},
                 prev_dir=task_doc.dir_name,
+                niter=niter+1,
             )
 
         return Response(output=task_doc, replace=replace)
