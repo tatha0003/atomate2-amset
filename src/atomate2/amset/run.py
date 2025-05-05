@@ -17,7 +17,7 @@ def run_amset() -> None:
     # Run AMSET using the command line as calling from python can cause issues
     # with multiprocessing
     with open("std_out.log", "w") as f_std, open("std_err.log", "w") as f_err:
-        subprocess.call(["amset", "run"], stdout=f_std, stderr=f_err)  # noqa: S607
+        subprocess.call(["amset", "run", "--nworkers", "2"], stdout=f_std, stderr=f_err)  # noqa: S607
 
 def check_converged(
     new_transport: dict,
